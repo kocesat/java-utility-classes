@@ -1,6 +1,7 @@
 package com.kocesat.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -29,5 +30,22 @@ public final class DateTimeUtils {
             throw new IllegalArgumentException("No compatible date format found!");
         }
         return localDate;
+    }
+
+    public static LocalDateTime parseDateTimeFromMultipleFormats(String value, String[] formats) {
+        LocalDateTime localDateTime = null;
+        for (String format : formats) {
+            try {
+                localDateTime = LocalDateTime.parse(value, DateTimeFormatter.ofPattern(format));
+                break;
+            } catch (DateTimeParseException e) {
+                continue;
+            }
+        }
+
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("No compatible date format found!");
+        }
+        return localDateTime;
     }
 }
